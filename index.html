@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#070a1a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>星轨词库 · 选择版本</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:#070a1a;color:#e9edff;min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:24px 20px;position:relative;overflow-x:hidden}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+  radial-gradient(1000px 680px at 82% -12%,rgba(167,139,250,.20),transparent 62%),
+  radial-gradient(780px 560px at 2% 8%,rgba(110,231,255,.13),transparent 60%),
+  radial-gradient(1100px 760px at 50% 112%,rgba(233,200,116,.11),transparent 64%),
+  linear-gradient(175deg,#06091a 0%,#0a0f28 46%,#070a1c 100%)}
+.logo{font-size:2.6rem;margin-bottom:8px;filter:drop-shadow(0 0 18px rgba(233,200,116,.5));position:relative;z-index:1}
+h1{font-size:1.35rem;font-weight:600;margin-bottom:6px;text-align:center;color:#f7ecc9;letter-spacing:.16em;position:relative;z-index:1}
+.sub{font-size:.85rem;color:rgba(233,237,255,.62);margin-bottom:28px;text-align:center;line-height:1.7;letter-spacing:.05em;position:relative;z-index:1}
+.cards{display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;position:relative;z-index:1}
+a.card{display:block;text-decoration:none;color:inherit;background:rgba(16,23,50,.86);border:1px solid rgba(233,200,116,.26);
+  border-radius:14px;padding:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 10px 34px rgba(0,0,0,.45);
+  clip-path:polygon(0 16px,16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);
+  transition:transform .18s,border-color .18s,background .18s}
+a.card:active{transform:scale(.985)}
+a.card:hover{border-color:rgba(233,200,116,.6);background:rgba(22,30,64,.9)}
+.emoji{font-size:2rem}
+.title{font-size:1.05rem;font-weight:600;margin-top:6px;color:#f7ecc9;letter-spacing:.08em}
+.desc{font-size:.8rem;color:rgba(233,237,255,.6);margin-top:6px;line-height:1.6}
+.tags{margin-top:12px;display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:.7rem;background:rgba(110,231,255,.14);color:#7dd3fc;padding:3px 9px;border-radius:99px;border:1px solid rgba(110,231,255,.22)}
+.tag.g{background:rgba(167,139,250,.16);color:#c4b5fd;border-color:rgba(167,139,250,.24)}
+.tag.n{background:rgba(233,200,116,.14);color:#e9c874;border-color:rgba(233,200,116,.26)}
+.tip{margin-top:26px;font-size:.75rem;color:#8892b8;text-align:center;line-height:1.8;max-width:420px;position:relative;z-index:1}
+.tip b{color:#aab3d4}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+<div class="logo">✦</div>
+<h1>星轨词库</h1>
+<div class="sub">间隔重复 · 真题例句 · 5700+ 词库<br>星穹铁道视觉主题 · 配额＋权重出词</div>
+
+<div class="cards">
+  <a class="card" href="normal.html">
+    <div class="emoji">📖</div>
+    <div class="title">标准版</div>
+    <div class="desc">极简单词卡与间隔重复，专注背诵本身，出词策略可在设置页自由调配</div>
+    <div class="tags"><span class="tag">单词测试</span><span class="tag">短语填空</span><span class="tag">遗忘专项</span><span class="tag n">策略可调</span></div>
+  </a>
+
+  <a class="card" href="game.html">
+    <div class="emoji">⚔️</div>
+    <div class="title">星轨远征</div>
+    <div class="desc">出战打怪、升级掉装备，把背单词变成一场星际闯关</div>
+    <div class="tags"><span class="tag g">打怪掉宝</span><span class="tag g">等级装备</span><span class="tag g">连击暴击</span><span class="tag n">策略可调</span></div>
+  </a>
+</div>
+
+<div class="tip">
+  <b>安装为应用（推荐）</b><br>
+  电脑 Chrome / Edge：地址栏右侧「⊕ 安装」，或菜单 →「安装应用」<br>
+  安卓 Chrome：菜单 →「安装应用 / 添加到主屏幕」<br>
+  iPhone Safari：分享按钮 →「添加到主屏幕」<br>
+  安装后全屏独立运行、有桌面图标、离线可用<br>
+  <span style="opacity:.7">学习进度保存在当前网址的浏览器本地存储中 · 换设备可用「数据同步」导出 / 导入 JSON</span>
+</div>
+
+<script>
+(function(){
+  const cv=document.getElementById('sky'),ctx=cv.getContext('2d');
+  let W=0,H=0,st=[],raf=null,last=0;
+  const DPR=Math.min(window.devicePixelRatio||1,2);
+  function rs(){W=cv.width=Math.floor(innerWidth*DPR);H=cv.height=Math.floor(innerHeight*DPR);
+    cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';
+    const n=Math.round(Math.min(140,Math.max(56,(innerWidth*innerHeight)/13000)));st=[];
+    for(let i=0;i<n;i++)st.push({x:Math.random()*W,y:Math.random()*H,r:(Math.random()*1.05+0.35)*DPR,
+      a:Math.random()*0.5+0.28,sp:Math.random()*0.024+0.006,ph:Math.random()*6.28,g:Math.random()<0.24});}
+  function draw(){ctx.clearRect(0,0,W,H);
+    for(const s of st){s.ph+=s.sp;const tw=s.a*(0.62+0.38*Math.sin(s.ph));const c=s.g?'240,220,150':'200,226,255';
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r*2.8,0,6.2832);ctx.fillStyle='rgba('+c+','+(tw*0.16)+')';ctx.fill();
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.2832);ctx.fillStyle='rgba('+c+','+tw+')';ctx.fill();}}
+  function loop(t){raf=requestAnimationFrame(loop);if(t-last<32)return;last=t;draw()}
+  rs();raf=requestAnimationFrame(loop);
+  addEventListener('resize',function(){clearTimeout(cv._t);cv._t=setTimeout(rs,180)});
+})();
+</script>
+</body>
+</html>
