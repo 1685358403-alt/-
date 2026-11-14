@@ -504,12 +504,12 @@ select option{background:#0e1433;color:#e9edff}
     <div class="stat-item stat-remaining"><div class="num" id="statRemaining">0</div><div class="label">待学习</div></div>
   </div>
   <div class="level-row">
-    <div class="level-chip lv0"><div class="num" id="lvCount0">0</div><div class="label">Lv0 未学</div></div>
-    <div class="level-chip lv1"><div class="num" id="lvCount1">0</div><div class="label">Lv1</div></div>
-    <div class="level-chip lv2"><div class="num" id="lvCount2">0</div><div class="label">Lv2</div></div>
-    <div class="level-chip lv3"><div class="num" id="lvCount3">0</div><div class="label">Lv3</div></div>
-    <div class="level-chip lv4"><div class="num" id="lvCount4">0</div><div class="label">Lv4</div></div>
-    <div class="level-chip lv5"><div class="num" id="lvCount5">0</div><div class="label">Lv5 精通</div></div>
+    <div class="level-chip lv0"><div class="num" id="lvCount0" data-lv="0">0</div><div class="label">Lv0 未学</div></div>
+    <div class="level-chip lv1"><div class="num" id="lvCount1" data-lv="1">0</div><div class="label">Lv1</div></div>
+    <div class="level-chip lv2"><div class="num" id="lvCount2" data-lv="2">0</div><div class="label">Lv2</div></div>
+    <div class="level-chip lv3"><div class="num" id="lvCount3" data-lv="3">0</div><div class="label">Lv3</div></div>
+    <div class="level-chip lv4"><div class="num" id="lvCount4" data-lv="4">0</div><div class="label">Lv4</div></div>
+    <div class="level-chip lv5"><div class="num" id="lvCount5" data-lv="5">0</div><div class="label">Lv5 精通</div></div>
   </div>
   <div class="group-progress-info">
     <span>本组进度</span>
@@ -939,7 +939,7 @@ function updateStats(){
   document.getElementById('statMastered').textContent=mastered;
   document.getElementById('statRemaining').textContent=remaining;
   const lv=[0,0,0,0,0,0];state.words.forEach(w=>lv[Math.min(5,Math.max(0,w.level||0))]++);
-  for(let i=0;i<6;i++){const el=document.getElementById('lvCount'+i);if(el)el.textContent=lv[i]}
+  for(let i=0;i<6;i++)document.querySelectorAll('[data-lv="'+i+'"]').forEach(el=>el.textContent=lv[i])
   document.getElementById('progressFill').style.width=(total>0?learned/total*100:0)+'%';
   document.getElementById('settingStats').textContent=`${total} / ${learned} / ${mastered} / ${state.todayWordIds.length}`;
   document.getElementById('settingGroupSize').textContent=state.groupSize;
