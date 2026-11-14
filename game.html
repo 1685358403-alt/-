@@ -90,6 +90,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .stat-item{flex:1;min-width:56px;text-align:center;padding:4px 2px;border-radius:8px;background:#f8f9fb}
 .stat-item .num{font-size:0.95rem;font-weight:700;color:var(--primary)}
 .stat-item .label{font-size:0.6rem;color:var(--text-light)}
+.stat-item{--sc:var(--text-light)}
+.stat-item .num{color:var(--sc)}
+.stat-item .label{border-top:2px solid var(--sc);padding-top:1px;margin-top:1px}
+.stat-total{--sc:#8a8f9c}.stat-today{--sc:#3787dd}.stat-learned{--sc:#22a06b}.stat-mastered{--sc:#d9a441}.stat-remaining{--sc:#e24b4a}
+.level-row{display:flex;gap:4px;padding:0 10px 6px}
+.level-chip{flex:1;text-align:center;padding:4px 0;border-radius:8px}
+.level-chip .num{font-size:.8rem;font-weight:700}
+.level-chip .label{font-size:.55rem;color:var(--text-light);margin-top:1px}
+.lv0{background:rgba(136,135,128,.1);border:1px solid rgba(136,135,128,.3)}.lv0 .num{color:#888780}
+.lv1{background:rgba(226,75,74,.1);border:1px solid rgba(226,75,74,.3)}.lv1 .num{color:#e24b4a}
+.lv2{background:rgba(216,90,48,.1);border:1px solid rgba(216,90,48,.3)}.lv2 .num{color:#d85a30}
+.lv3{background:rgba(239,159,39,.12);border:1px solid rgba(239,159,39,.35)}.lv3 .num{color:#ba7517}
+.lv4{background:rgba(29,158,117,.1);border:1px solid rgba(29,158,117,.3)}.lv4 .num{color:#1d9e75}
+.lv5{background:rgba(99,153,34,.1);border:1px solid rgba(99,153,34,.3)}.lv5 .num{color:#3b6d11}
 .group-progress-info{display:flex;justify-content:space-between;padding:6px 16px;font-size:0.78rem;color:var(--text-light);background:#fff;border-bottom:1px solid #e5e7eb}
 .group-progress-info .group-current{font-weight:600;color:var(--primary)}
 .progress-bar{height:4px;background:#e5e7eb;border-radius:2px;margin:0 16px 8px;overflow:hidden}
@@ -361,6 +375,10 @@ body::after{content:'';position:fixed;top:-40%;left:-40%;width:180%;height:180%;
 .stat-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}
 .stat-item .num{color:var(--gold)}
 .stat-item .label{color:rgba(233,237,255,.6)}
+.stat-total{--sc:rgba(233,237,255,.75)}.stat-today{--sc:#85b7eb}.stat-learned{--sc:#5dcaa5}.stat-mastered{--sc:var(--gold)}.stat-remaining{--sc:#f09595}
+.level-row .level-chip{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08)}
+.level-row .level-chip .label{color:rgba(233,237,255,.55)}
+.level-row .lv1 .num{color:#f09595}.level-row .lv2 .num{color:#f0997b}.level-row .lv3 .num{color:#ef9f27}.level-row .lv4 .num{color:#5dcaa5}.level-row .lv5 .num{color:#97c459}.level-row .lv0 .num{color:rgba(233,237,255,.5)}
 .group-progress-info{background:transparent;color:var(--text-light)}
 .group-progress-info .group-current{color:var(--cyan)}
 .progress-bar{background:rgba(255,255,255,.1)}
@@ -643,11 +661,19 @@ select option{background:#0e1433;color:#e9edff}
     </div>
   </div>
   <div class="stats-bar">
-    <div class="stat-item"><div class="num" id="statTotal">0</div><div class="label">总词</div></div>
-    <div class="stat-item"><div class="num" id="statToday">0</div><div class="label">今日</div></div>
-    <div class="stat-item"><div class="num" id="statLearned">0</div><div class="label">累计</div></div>
-    <div class="stat-item"><div class="num" id="statMastered">0</div><div class="label">掌握</div></div>
-    <div class="stat-item"><div class="num" id="statRemaining">0</div><div class="label">待学</div></div>
+    <div class="stat-item stat-total"><div class="num" id="statTotal">0</div><div class="label">总词</div></div>
+    <div class="stat-item stat-today"><div class="num" id="statToday">0</div><div class="label">今日</div></div>
+    <div class="stat-item stat-learned"><div class="num" id="statLearned">0</div><div class="label">累计</div></div>
+    <div class="stat-item stat-mastered"><div class="num" id="statMastered">0</div><div class="label">掌握</div></div>
+    <div class="stat-item stat-remaining"><div class="num" id="statRemaining">0</div><div class="label">待学</div></div>
+  </div>
+  <div class="level-row">
+    <div class="level-chip lv0"><div class="num" id="lvCount0">0</div><div class="label">Lv0</div></div>
+    <div class="level-chip lv1"><div class="num" id="lvCount1">0</div><div class="label">Lv1</div></div>
+    <div class="level-chip lv2"><div class="num" id="lvCount2">0</div><div class="label">Lv2</div></div>
+    <div class="level-chip lv3"><div class="num" id="lvCount3">0</div><div class="label">Lv3</div></div>
+    <div class="level-chip lv4"><div class="num" id="lvCount4">0</div><div class="label">Lv4</div></div>
+    <div class="level-chip lv5"><div class="num" id="lvCount5">0</div><div class="label">Lv5</div></div>
   </div>
   <div class="group-progress-info">
     <span>本组进度</span>
@@ -940,39 +966,21 @@ function getPlayerAtk(){return state.player.baseAtk+(state.player.weapon?state.p
 function getPlayerDef(){return state.player.baseDef+(state.player.armor?state.player.armor.def:0)}
 function getPlayerMaxHp(){let m=100+(state.player.level-1)*20;if(state.player.accessory&&state.player.accessory.effect==='maxhp')m+=state.player.accessory.val;return m}
 
+const SPRINT_MAX_INTERVAL=3; // 冲刺模式：间隔封顶3天，全词库高频轮转
 function updateWordSR(word,quality){
   word.lastReview=Date.now();
-  if(quality<3){
-    // 没记住：重置重复次数，间隔很短
-    word.reps=0;
-    word.interval = quality===1 ? 0.5 : 0.1; // 比较模糊→12小时后, 没印象→约2.4小时后
+  if(quality===5){ // 记得：间隔+1天，封顶3天
+    word.interval=Math.min(SPRINT_MAX_INTERVAL,Math.max(1,(word.interval||0)+1));
+    word.level=Math.min(5,(word.level||0)+1);word.reps++;word.correct++;
+  }else if(quality===3){ // 有点模糊：间隔不变，等级+1
+    word.interval=Math.max(1,Math.min(SPRINT_MAX_INTERVAL,word.interval||1));
+    word.level=Math.min(5,(word.level||0)+1);word.reps++;word.correct++;
+  }else if(quality===1){ // 比较模糊：间隔打回1天，等级-1
+    word.interval=1;word.level=Math.max(0,(word.level||0)-1);word.reps++;word.correct++;
+  }else{ // 没印象：间隔1天，等级-1，记遗忘
+    word.interval=1;word.level=Math.max(0,(word.level||0)-1);word.reps=0;
     word.forgetCount=(word.forgetCount||0)+1;
-  } else {
-    // 记住了：根据记忆质量分配不同间隔
-    if(word.reps===0){
-      // 首次记住：记得→2天后复习, 有点模糊→1天后复习
-      word.interval = quality===5 ? 2 : 1;
-    } else if(word.reps===1){
-      // 第二次：记得→5天, 有点模糊→2天
-      word.interval = quality===5 ? 5 : 2;
-    } else if(word.reps===2){
-      // 第三次：记得→12天, 有点模糊→4天
-      word.interval = quality===5 ? 12 : 4;
-    } else {
-      // 后续：记得→用ease factor快速增长, 有点模糊→慢速增长
-      var growth = quality===5 ? word.ef : word.ef*0.5;
-      word.interval = Math.max(1, Math.round(word.interval * growth));
-    }
-    word.reps++;
-    word.correct++;
   }
-  // 更新ease factor
-  word.ef=Math.max(1.3,word.ef+(0.1-(5-quality)*(0.08+(5-quality)*0.02)));
-  // 更新等级
-  if(quality===5)word.level=Math.min(5,word.level+1);
-  else if(quality===3)word.level=Math.min(5,word.level+1);
-  else if(quality===1)word.level=Math.max(0,word.level-1);
-  else word.level=0;
   word.nextReview=Date.now()+word.interval*DAY_MS;
 }
 
@@ -1119,10 +1127,10 @@ function wordWeight(w,now){
     if(!w.reps)return 1;
     const over=(now-(w.nextReview||0))/DAY_MS;
     if(over<0)return 0.12;
-    return 1+Math.min(over,45)/4;
+    return 1+Math.min(over,7)/1.5; // 冲刺模式：逾期一天权重就显著上升
   })();
   const gap=1+(5-(w.level||0))/2.5;
-  const forget=1+Math.min(w.forgetCount||0,10)*0.4;
+  const forget=1+Math.min(w.forgetCount||0,10)*0.5;
   const F={'高频':1.6,'中频':1.3,'低频':1,'其他':0.85,'自定义':1.25};
   return Math.max(0.01,urgency*gap*forget*(F[w.category]||1));
 }
@@ -1323,6 +1331,8 @@ function updateStats(){
   document.getElementById('statLearned').textContent=learned;
   document.getElementById('statMastered').textContent=mastered;
   document.getElementById('statRemaining').textContent=remaining;
+  const lv=[0,0,0,0,0,0];state.words.forEach(w=>lv[Math.min(5,Math.max(0,w.level||0))]++);
+  for(let i=0;i<6;i++){const el=document.getElementById('lvCount'+i);if(el)el.textContent=lv[i]}
   document.getElementById('progressFill').style.width=(total>0?learned/total*100:0)+'%';
   document.getElementById('settingStats').textContent=`${total} / ${learned} / ${mastered} / ${state.todayWordIds.length}`;
   document.getElementById('settingGroupSize').textContent=state.groupSize;

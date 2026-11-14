@@ -1,5 +1,5 @@
 /* 星穹背词 Service Worker：预缓存核心资源，运行时网络优先 + 缓存兜底 */
-const CACHE = 'xqbw-v1';
+const CACHE = 'xqbw-v2';
 const CORE = [
   './', './index.html', './normal.html', './game.html',
   './manifest-normal.webmanifest', './manifest-game.webmanifest',
